@@ -24,7 +24,7 @@ type minioStore struct {
 }
 
 func (m minioStore) Download(filename string) (interface{}, error) {
-	object, err := m.client.GetObject(context.Background(), m.config.AccountName, filename, minio.GetObjectOptions{
+	object, err := m.client.GetObject(context.Background(), m.config.ContainerName, filename, minio.GetObjectOptions{
 		ServerSideEncryption: nil,
 	})
 	if err != nil {
@@ -35,7 +35,7 @@ func (m minioStore) Download(filename string) (interface{}, error) {
 }
 
 func (m minioStore) Upload(filename string, contentType string, filesize int64, data interface{}) error {
-	_, err := m.client.PutObject(context.Background(), m.config.AccountName, filename, data.(io.Reader), filesize, minio.PutObjectOptions{ContentType: contentType})
+	_, err := m.client.PutObject(context.Background(), m.config.ContainerName, filename, data.(io.Reader), filesize, minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func (m minioStore) Upload(filename string, contentType string, filesize int64, 
 }
 
 func (m minioStore) Delete(filename string) error {
-	return m.client.RemoveObject(m.ctx, m.config.AccountName, filename, minio.RemoveObjectOptions{
+	return m.client.RemoveObject(m.ctx, m.config.ContainerName, filename, minio.RemoveObjectOptions{
 		ForceDelete: true,
 	})
 }
@@ -54,7 +54,7 @@ func (m minioStore) List(prefix string) (interface{}, error) {
 
 	defer cancel()
 
-	objects := m.client.ListObjects(ctx, m.config.AccountName, minio.ListObjectsOptions{
+	objects := m.client.ListObjects(ctx, m.config.ContainerName, minio.ListObjectsOptions{
 		Prefix:    prefix,
 		Recursive: true,
 	})
@@ -66,7 +66,7 @@ func (m minioStore) List(prefix string) (interface{}, error) {
 			return nil, object.Err
 		}
 
-		objectInfo, _ := m.client.StatObject(ctx, m.config.AccountName, object.Key, minio.GetObjectOptions{})
+		objectInfo, _ := m.client.StatObject(ctx, m.config.ContainerName, object.Key, minio.GetObjectOptions{})
 		results = append(results, &objectInfo)
 	}
 

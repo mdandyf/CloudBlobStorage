@@ -2,6 +2,7 @@ package blobstore
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/minio/minio-go/v7"
@@ -73,10 +74,14 @@ func (m minioStore) List(prefix string) (interface{}, error) {
 }
 
 func connectMinioBlobStorage(config *Config) *minio.Client {
-	client, _ := minio.New(config.Endpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(config.AccountKey, config.AccountSecret, ""),
+	client, err := minio.New(config.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(config.AccountName, config.AccountKey, ""),
 		Secure: config.SSL,
 	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return client
 }

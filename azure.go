@@ -93,7 +93,10 @@ func (a azureStore) List(prefix string) (interface{}, error) {
 func connectAzureBlobStorage(accountName *string, accountKey *string, blobServiceURL *string, containerName *string) azblob.ContainerURL {
 
 	// Use your Storage account's name and key to create a credential object; this is used to access your account.
-	credential, _ := azblob.NewSharedKeyCredential(*accountName, *accountKey)
+	credential, err := azblob.NewSharedKeyCredential(*accountName, *accountKey)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// Create a request pipeline that is used to process HTTP(S) requests and responses. It requires
 	// your account credentials. In more advanced scenarios, you can configure telemetry, retry policies,

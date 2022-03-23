@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/url"
+	"strings"
 
 	"github.com/Azure/azure-storage-blob-go/azblob"
 )
@@ -66,7 +67,7 @@ func (a azureStore) Delete(filename string) error {
 }
 
 func (a azureStore) List(prefix string) (interface{}, error) {
-	var results [][]azblob.BlobItemInternal
+	var results []azblob.BlobItemInternal
 
 	// List the blob(s) in our container; since a container may hold millions of blobs, this is done 1 segment at a time.
 	for marker := (azblob.Marker{}); marker.NotDone(); { // The parens around Marker{} are required to avoid compiler error.
@@ -82,9 +83,10 @@ func (a azureStore) List(prefix string) (interface{}, error) {
 		// Process the blobs returned in this result segment (if the segment is empty, the loop body won't execute)
 		for _, blobInfo := range listBlob.Segment.BlobItems {
 			fmt.Print("Blob name: " + blobInfo.Name + "\n")
+			if strings.Contains(blobInfo.Name, prefix) {
+				results = append(results, blobInfo)
+			}
 		}
-
-		results = append(results, listBlob.Segment.BlobItems)
 	}
 
 	return results, nil

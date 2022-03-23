@@ -1,4 +1,4 @@
-module github.com/mdandyf/cloudblobstorage
+module github.com/mdandyf/CloudBlobStorage
 
 go 1.17
 

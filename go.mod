@@ -3,16 +3,17 @@ module github.com/mdandyf/CloudBlobStorage
 go 1.17
 
 require (
+	cloud.google.com/go/storage v1.21.0
 	github.com/Azure/azure-storage-blob-go v0.14.0
 	github.com/aws/aws-sdk-go v1.43.23
 	github.com/minio/minio-go/v7 v7.0.23
+	google.golang.org/api v0.69.0
 )
 
 require (
 	cloud.google.com/go v0.100.2 // indirect
 	cloud.google.com/go/compute v1.2.0 // indirect
 	cloud.google.com/go/iam v0.1.1 // indirect
-	cloud.google.com/go/storage v1.21.0 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.3 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
@@ -42,7 +43,6 @@ require (
 	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/api v0.69.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20220216160803-4663080d8bc8 // indirect
 	google.golang.org/grpc v1.44.0 // indirect

@@ -13,7 +13,7 @@ import (
 func AzureStore(config *Config) Service {
 	return &azureStore{
 		config:    config,
-		container: connectAzureBlobStorage(&config.AccountName, &config.AccountKey, &config.ServiceURL, &config.ContainerName),
+		container: connectAzureBlobStorage(config),
 		ctx:       context.Background(),
 	}
 }
@@ -92,10 +92,10 @@ func (a azureStore) List(prefix string) (interface{}, error) {
 	return results, nil
 }
 
-func connectAzureBlobStorage(accountName *string, accountKey *string, blobServiceURL *string, containerName *string) azblob.ContainerURL {
+func connectAzureBlobStorage(config *Config) azblob.ContainerURL {
 
 	// Use your Storage account's name and key to create a credential object; this is used to access your account.
-	credential, err := azblob.NewSharedKeyCredential(*accountName, *accountKey)
+	credential, err := azblob.NewSharedKeyCredential(config.AccountName, config.AccountKey)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -107,9 +107,9 @@ func connectAzureBlobStorage(accountName *string, accountKey *string, blobServic
 
 	// From the Azure portal, get your Storage account blob service URL endpoint.
 	// The URL typically looks like this:
-	u, _ := url.Parse(fmt.Sprintf(*blobServiceURL, *accountName))
+	u, _ := url.Parse(fmt.Sprintf(config.ServiceURL, config.AccountName))
 
 	// Create an ServiceURL object that wraps the service URL and a request pipeline.
 
-	return azblob.NewServiceURL(*u, p).NewContainerURL(*containerName)
+	return azblob.NewServiceURL(*u, p).NewContainerURL(config.ContainerName)
 }

@@ -6,5 +6,6 @@ type Config struct {
 	ServiceURL    string `envconfig:"ACCOUNT_SERVICE_URL" default:"http://test"`
 	ContainerName string `envconfig:"CONTAINER_NAME" default:"petrosea"`
 	Endpoint      string `envconfig:"ENDPOINT" default:"petrosea"`
+	Region        string `envconfig:"REGION" default:"us-west-2"`
 	SSL           bool   `envconfig:"SSL" default:"true"`
 }

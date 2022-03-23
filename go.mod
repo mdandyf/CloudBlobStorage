@@ -1,4 +1,4 @@
-module gitlab.todcoe.com/blobstore
+module github.com/mdandyf/cloudblobstorage
 
 go 1.17
 
